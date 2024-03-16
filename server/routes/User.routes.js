@@ -30,7 +30,7 @@ userRouter.post('/register', async (req, res)=>{
 // route "/users/login"
 // access public
 userRouter.post('/login', async (req,res)=>{
-    const {name, email, password} = req.body;
+    const {email, password} = req.body;
     try {
         const user = await UserModel.find({email});
         console.log(user);

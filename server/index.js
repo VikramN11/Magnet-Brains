@@ -1,6 +1,8 @@
 const express = require('express');
 const { userRouter } = require('./routes/User.routes');
-const { connection } = require('mongoose');
+const { connection } = require('./db');
+const { taskRouter } = require('./routes/Task.routes');
+const { authenticate } = require('./middleware/authenticate.middleware');
 require('dotenv').config();
 
 
@@ -14,6 +16,10 @@ app.get("/", (req,res)=>{
 
 app.use("/users", userRouter);
 
+app.use(authenticate);
+
+app.use("/tasks", taskRouter);
+
 
 app.listen(process.env.port, async ()=>{
     try {
@@ -22,5 +28,5 @@ app.listen(process.env.port, async ()=>{
     } catch (err) {
         console.log(err.message);
     }
-    console.log("Server is running at port 8080");
+    console.log("Server is running at port 8070");
 })
