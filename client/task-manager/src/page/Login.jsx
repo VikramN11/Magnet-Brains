@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
@@ -13,8 +12,38 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errMessage, setErrMessage] = useState("");
+
+    const handleSubmit = (e)=>{
+      e.preventDefault();
+
+      if (!email || !password) {
+       setErrMessage('Please fill in all fields.');
+     } 
+     else {
+       const payload = {email, password}
+ 
+       axios.post(`https://nice-gray-scarab-coat.cyclic.app/users/login`, payload).then(res=>{
+         console.log(res.data);
+         alert("Logged In Successfully");
+         navigate("/tasks/create");
+         setEmail('');
+         setPassword('');
+         setErrMessage('');
+        }).catch(err=>{
+          console.log(err);
+        })
+      }
+    }
+
   return (
     <div>
       <Flex
@@ -34,20 +63,21 @@ const Login = () => {
           <Stack spacing={4}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={(e)=> setEmail(e.target.value)} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={(e)=> setPassword(e.target.value)} />
             </FormControl>
             <Stack spacing={10}>
               <Button
+                onClick={handleSubmit}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
                   bg: 'blue.500',
                 }}>
-                Sign in
+                Login
               </Button>
             </Stack>
           </Stack>

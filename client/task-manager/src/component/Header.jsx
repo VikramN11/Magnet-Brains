@@ -34,7 +34,7 @@ const Header = () => {
                   variant={'link'}
                   cursor={'pointer'}
                   minW={0}>
-                  Sign In
+                  Login
                 </MenuButton>
               </Menu>
             </Stack>
