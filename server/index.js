@@ -4,11 +4,14 @@ const { connection } = require('./db');
 const { taskRouter } = require('./routes/Task.routes');
 const { authenticate } = require('./middleware/authenticate.middleware');
 require('dotenv').config();
+const cors = require('cors');
 
 
 const app = express();
 
 app.use(express.json());
+
+app.use(cors({origin: "*"}));
 
 app.get("/", (req,res)=>{
     res.send("Home Pages");
